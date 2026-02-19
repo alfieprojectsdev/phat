@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHAT</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PHAT</h1>
+            <span class="version">v1.0</span>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+            <button class="tab-btn" data-tab="map-tools">Map Tools</button>
+            <button class="tab-btn" data-tab="report">Report</button>
+            <button class="tab-btn" data-tab="settings">Settings</button>
+        </div>
+
+        <div class="tab-content active" id="dashboard">
+            <div class="card">
+                <h3>Current Request</h3>
+                <div class="field-group">
+                    <label>Request ID</label>
+                    <input type="text" id="req-id" readonly placeholder="Scanning...">
+                </div>
+                <div class="field-group">
+                    <label>Location</label>
+                    <input type="text" id="req-loc" readonly placeholder="Scanning...">
+                </div>
+                <div class="field-group">
+                    <label>Client</label>
+                    <input type="text" id="req-client" readonly placeholder="Scanning...">
+                </div>
+                <button id="refresh-meta" class="secondary-btn">↻ Rescan Page</button>
+            </div>
+
+            <div class="card">
+                <h3>Generated Filenames</h3>
+                <div id="filename-list" class="filename-list">
+                    <!-- Populated by JS -->
+                    <div class="placeholder">No filenames generated yet.</div>
+                </div>
+                <button id="copy-filenames" class="primary-btn">Copy All</button>
+            </div>
+        </div>
+
+        <div class="tab-content" id="map-tools">
+            <div class="card">
+                <h3>Map Utilities</h3>
+                <p class="hint">These tools inject scripts into the active map page.</p>
+                <div class="action-grid">
+                    <button id="btn-overlay-map" class="tool-btn">
+                        <span class="icon">🗺️</span>
+                        <span>Overlay Vicinity Map</span>
+                    </button>
+                    <button id="btn-import-kml" class="tool-btn">
+                        <span class="icon">📂</span>
+                        <span>Import KML/KMZ</span>
+                    </button>
+                    <button id="btn-check-ulap" class="tool-btn">
+                        <span class="icon">🧭</span>
+                        <span>Check Feature in ULAP</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="report">
+            <div class="card">
+                <h3>Hazard Assessment Report</h3>
+                <div class="controls">
+                    <label>Category:</label>
+                    <select id="report-category">
+                        <option value="Earthquake">Earthquake</option>
+                        <option value="Volcano">Volcano</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label><input type="checkbox" id="report-vicinity-map" checked> Vicinity Map Provided</label>
+                </div>
+                <button id="btn-gen-report" class="primary-btn">Generate Report</button>
+                <textarea id="report-output" readonly placeholder="Report will appear here..."></textarea>
+                <div class="controls">
+                    <button id="btn-copy-report" class="secondary-btn">Copy to Clipboard</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="settings">
+            <div class="card">
+                <h3>Configuration</h3>
+                <div class="field-group">
+                    <label>Filename Suffix</label>
+                    <input type="text" id="setting-suffix" placeholder="e.g. ArP">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="popup.js" type="module"></script>
+</body>
+</html>

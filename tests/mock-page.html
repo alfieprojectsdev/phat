@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>HAS Admin Mock</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        table.items {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table.items th,
+        table.items td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .text-primary {
+            color: blue;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>HAS Admin Mock Page</h1>
+
+    <!-- metadata mocks for scraper -->
+    <div style="display:none">
+        Request 2025-001
+        Requested For Juan Dela Cruz
+        Requested By Maria Clara
+        Province, City, Barangay: Quezon City, Metro Manila, Batasan Hills
+    </div>
+
+    <div id="map"></div>
+
+    <div id="assessment-grid">
+        <table class="items">
+            <thead>
+                <tr>
+                    <th><input type="checkbox"></th>
+                    <th>Hazard</th>
+                    <th>Assessment</th>
+                    <th>Location</th>
+                    <th>Attachments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Active Fault</td>
+                    <td>Safe; Approximately 5.2 km East of the West Valley Fault</td>
+                    <td>121.05, 14.60</td>
+                    <td>
+                        <span class="text-primary">Vicinity Map.jpg</span>
+                        <a href="https://via.placeholder.com/800x600.png?text=Vicinity+Map" download>Download</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Liquefaction</td>
+                    <td>Moderate Susceptibility</td>
+                    <td>121.05, 14.60</td>
+                    <td>
+                        <span class="text-primary">Feature.kml</span>
+                        <a href="data:text/xml;charset=utf-8,%3Ckml%3E...%3C%2Fkml%3E" download>Download</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Init Map
+        var map = L.map('map').setView([14.60, 121.05], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+    </script>
+
+    <!-- INJECT TEST: Manual Trigger -->
+    <div style="margin-top:20px; background:#eee; padding:10px;">
+        <h3>Extension Simulation Controls</h3>
+        <button onclick="simulateOverlay()">Simulate Overlay Vicinity Map</button>
+        <button onclick="simulateKML()">Simulate Import KML</button>
+        <p><em>To test properly, load the unpacked extension in Chrome and allow it to run on file:// URLs or serve this
+                page.</em></p>
+    </div>
+
+    <script>
+        function simulateOverlay() {
+            if (window.PHAT && window.PHAT.overlayVicinityMap) {
+                window.PHAT.overlayVicinityMap();
+            } else {
+                alert('PHAT not loaded. (Did content script inject it?)');
+            }
+        }
+        function simulateKML() {
+            if (window.PHAT && window.PHAT.importKML) {
+                window.PHAT.importKML();
+            } else {
+                alert('PHAT not loaded.');
+            }
+        }
+    </script>
+</body>
+
+</html>
